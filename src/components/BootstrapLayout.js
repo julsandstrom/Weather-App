@@ -1,11 +1,11 @@
 import React, { useState, useEffect } from "react";
 import SearchForm from "./SearchForm";
 import WeatherDisplay from "./WeatherDisplay";
-import icon from './icon.png';
+import icon from "./icon.png";
 
 function BootstrapLayout() {
   const [showWeather, setShowWeather] = useState(false);
-  const [cityName, setCityName] = useState('');
+  const [cityName, setCityName] = useState("");
   const [rememberCity, setRememberCity] = useState(false);
   const [favoriteCities, setFavoriteCities] = useState([]);
 
@@ -16,21 +16,20 @@ function BootstrapLayout() {
       setRememberCity(true);
     }
 
-    const storedFavorites = JSON.parse(localStorage.getItem("favoriteCities")) || [];
-    setFavoriteCities(storedFavorites.slice(0, 2)); //updates the state, new array with only 2 cities to setFavoriteCities
-  }, []); 
+    const storedFavorites =
+      JSON.parse(localStorage.getItem("favoriteCities")) || [];
+    setFavoriteCities(storedFavorites.slice(0, 2));
+  }, []);
 
- 
   const handleSubmit = (e) => {
-    e.preventDefault(); 
+    e.preventDefault();
 
     if (rememberCity) {
-      localStorage.setItem('rememberedCity', cityName);
+      localStorage.setItem("rememberedCity", cityName);
     } else {
-      localStorage.removeItem('rememberedCity');
+      localStorage.removeItem("rememberedCity");
     }
 
-    
     if (rememberCity && cityName) {
       let updatedFavorites = [...favoriteCities];
 
@@ -41,45 +40,53 @@ function BootstrapLayout() {
 
         updatedFavorites.push(cityName);
 
-        setFavoriteCities(updatedFavorites); // Update state
-        localStorage.setItem('favoriteCities', JSON.stringify(updatedFavorites)); // Save to localStorage
+        setFavoriteCities(updatedFavorites);
+        localStorage.setItem(
+          "favoriteCities",
+          JSON.stringify(updatedFavorites)
+        );
       }
     }
 
     setShowWeather(true);
   };
 
-  // New search and reset the form
   const newSearch = () => {
-    setShowWeather(false); 
+    setShowWeather(false);
     if (!rememberCity) {
-      setCityName(''); // Clear the city name if the user doesn't want it remembered
+      setCityName("");
     }
   };
 
   return (
-    <div className="container d-flex justify-content-center align-items-center" style={{ minHeight: '100vh' }}>
-      <div className="text-center border rounded shadow p-4 bg-white" style={{ width: '620px', height: '500px' }}>
-        <img className="mt-4 mb-4" src={icon} alt="" width="130" height="80" />
+    <div className="container d-flex justify-content-center align-items-center display-container">
+      <div className="text-center border rounded shadow p-4 bg-white display-box">
+        <img className="icon-cloud" src={icon} alt="cloud icon" />
 
-        {/* Conditionally render either the WeatherDisplay or the SearchForm */}
         {showWeather ? (
-          // Display the weather info after the form is submitted
           <WeatherDisplay cityName={cityName} newSearch={newSearch} />
         ) : (
-          // Show the search form to input the city name
-          <SearchForm 
+          <SearchForm
             cityName={cityName}
             setCityName={setCityName}
             rememberCity={rememberCity}
             setRememberCity={setRememberCity}
             handleSubmit={handleSubmit}
-            favoriteCities={favoriteCities} // Passing favorite cities to SearchForm
+            favoriteCities={favoriteCities}
           />
         )}
-        <div style={{ position: 'absolute', bottom: '10px', left: '0', right: '0', textAlign: 'center', color:'grey' }}>
+        {/* <div
+          style={{
+            position: "absolute",
+            bottom: "10px",
+            left: "0",
+            right: "0",
+            textAlign: "center",
+            color: "grey",
+          }}
+        >
           <small>Weather App - Julian Sandström</small>
-        </div>
+        </div> */}
       </div>
     </div>
   );

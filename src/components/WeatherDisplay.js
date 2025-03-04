@@ -1,5 +1,5 @@
-import React, { useState } from 'react';
-import CurrentWeather from './CurrentWeather';
+import React, { useState } from "react";
+import CurrentWeather from "./CurrentWeather";
 
 function WeatherDisplay({ cityName, newSearch }) {
   const [showNextFiveDays, setShowNextFiveDays] = useState(false);
@@ -10,13 +10,15 @@ function WeatherDisplay({ cityName, newSearch }) {
 
   return (
     <div>
-      {/* Pass the state down to CurrentWeather */}
       <CurrentWeather cityName={cityName} showNextFiveDays={showNextFiveDays} />
-      <button className="btn btn-primary btn-sm" onClick={newSearch} style={{ marginRight: '30px' }}>
+      <button className="new-search-button " onClick={newSearch}>
         New Search
       </button>
-      <button className="btn btn-primary btn-sm" onClick={toggleNextFiveDays}>
-        {showNextFiveDays ? 'Show Current Weather' : 'Next 5 Days'}
+      <button
+        className="new-search-button new-search-button-space"
+        onClick={toggleNextFiveDays}
+      >
+        {showNextFiveDays ? "Show Current Weather" : "Next 5 Days"}
       </button>
     </div>
   );
